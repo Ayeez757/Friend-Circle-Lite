@@ -8,7 +8,9 @@
 #     marge_json_path:  请填写网络地址的json文件，用于合并，不带空格！！！
 spider_settings:
   enable: true
-  json_url: "https://blog.ayeez.cn/friend.json"
+  json_url: 
+    - "https://blog.ayeez.cn/friend.json"
+    - "https://blog.ayeez.cn/rss.json"
   article_count: 5
   merge_result:
     enable: true
