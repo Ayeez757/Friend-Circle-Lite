@@ -62,5 +62,7 @@ smtp:
 specific_RSS:
    - name: "阮一峰"
      url: "http://feeds.feedburner.com/ruanyifeng"
+   - name: "猫笔刀"
+     url: "https://plink.anyfeeder.com/weixin/maobidao"
   # - name: "無名小栈"
   #   url: "https://blog.imsyy.top/rss.xml"
