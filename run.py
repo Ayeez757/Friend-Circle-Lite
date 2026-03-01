@@ -32,15 +32,22 @@ if config["spider_settings"]["enable"]:
     specific_rss = config['specific_RSS']
 
     logging.info(f"📥 正在从 {json_url} 获取数据，每个博客获取 {article_count} 篇文章")
-    result, lost_friends = fetch_and_process_data(
-        json_url        = json_url,             # 包含朋友信息的 JSON 文件的 URL。
-        specific_RSS    = specific_rss,         # 包含特定 RSS 源的字典列表 [{name, url}]（来自 YAML）。
-        count           = article_count,        # 获取每个博客的最大文章数。
-        cache_file      = "./temp/cache.json"   # 缓存文件路径。
-    )
+    
+    # 添加异常捕获，防止单次失败导致整个脚本崩溃
+    try:
+        result, lost_friends = fetch_and_process_data(
+            json_url        = json_url,
+            specific_RSS    = specific_rss,
+            count           = article_count,
+            cache_file      = "./temp/cache.json"
+        )
+    except Exception as e:
+        logging.error(f"❌ 爬虫执行失败: {e}")
+        # 设置默认的空数据，保证后续合并、写入操作不会出错
+        result = {}
+        lost_friends = []
 
     if config["spider_settings"]["merge_result"]["enable"]:
-
         merge_url = config['spider_settings']["merge_result"]['merge_json_url']
         logging.info(f"🔀 合并功能开启，从 {merge_url} 获取外部数据")
         result = marge_data_from_json_url(result, f"{merge_url}/all.json")
